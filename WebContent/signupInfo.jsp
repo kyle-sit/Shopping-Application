@@ -46,9 +46,20 @@
 			pstmt.setInt(3, Integer.parseInt(request.getParameter("age")));
 			pstmt.setString(4, state);
 			
-			int rowCont = pstmt.executeUpdate();
-			response.sendRedirect("home.jsp");
+			int rowCount = pstmt.executeUpdate();
+
+			pstmt = conn.prepareStatement("INSERT INTO Cart (name, total price, buyer, date) VALUES (?, ?, ?, ?)");
+
+			pstmt.setString(1, username);
+			pstmt.setString(3, username);
+			pstmt.setInt(2, 0);
+			pstmt.setString(4, “May”);
+
+			session.setAttribute(“cart”, username);
+			rowCount = pstmt.executeUpdate();			
+
 			session.setAttribute("signupSuccess", true);
+			response.sendRedirect("home.jsp");
 			%>
 			
 			

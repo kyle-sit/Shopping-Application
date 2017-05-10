@@ -30,12 +30,13 @@
 	<%
 			// Create the statement
 			Statement statement = conn.createStatement();
-			PreparedStatement ps = conn.prepareStatement("SELECT name FROM Products WHERE name =%?%");
+			//PreparedStatement ps = conn.prepareStatement("SELECT name FROM Products WHERE name LIKE '?%'");
 			// Use the created statement to SELECT
 			// the student attributes FROM the Student table.
+			
 			String searchName = request.getParameter("search");
-			ps.setString(1, searchName);
-			rs = ps.executeQuery();
+			//ps.setString(1, searchName);
+			rs = statement.executeQuery("SELECT name FROM Products WHERE name LIKE '%" + searchName + "%'");
 			
 			%>
 			 <%-- -------- Iteration Code -------- --%>
@@ -46,10 +47,15 @@
 
 	            
 	                <%-- Get the product --%>
-	                
-	                	<% int varID = rs.getInt("ID");%>
-	                    
-	                    <a href='productOrder.jsp?id=varID'><%=rs.getString("name")%></a>
+	                	
+	                	
+	                    <form method=“GET” action=“productOrder.jsp”>
+    			    <br><%=rs.getString("name")%> </br>
+			    <br>How many? <input type=“number” name=“quantity” />
+			    <button type="submit">Add To Cart</button>
+			    <input type=“Hidden” name=“productName” value=“<%=rs.getString("name”)%>”> 
+			    </form>
+	                    <%—- <a href='productOrder.jsp'><%=rs.getString("name")%></a> -—%>
 	                <%} %>
 
 			
